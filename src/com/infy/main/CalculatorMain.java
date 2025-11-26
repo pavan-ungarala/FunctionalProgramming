@@ -27,11 +27,13 @@ public class CalculatorMain {
 		case 1:
 			System.out.println("Addition of these two numbers are: "+ calc.calculate((a,b) -> a+b, n1, n2));
 			break;
-		case 2:
+		case 2:			System.out.println("Subtraction of these two numbers are: "+calc.calculate((x, y)-> x-y, n1, n2));
 			break;
 		case 3:
+			System.out.println("Multiplication of these two numbers are: "+calc.calculate((a,b)-> a*b, n1, n2));
 			break;
 		case 4:
+			System.out.println("Division of these two numbers are: "+calc.calculate((x, y)-> x/y, n1, n2));
 			break;
 		default:
 			System.out.println("Please enter correct option");
