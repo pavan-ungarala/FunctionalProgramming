@@ -3,6 +3,10 @@ package com.infy.evaluation;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.infy.entity.Employ;
 
@@ -10,14 +14,23 @@ public class EmployProcess {
 
 	//sorting the employ based on the Salary
 	public static List<Employ> sortingEmploysFromHighestSalary(List<Employ> employs){
-		List<Employ> empList = employs.stream().sorted(Comparator.comparingDouble(Employ :: getSalary).reversed()).toList();
+		List<Employ> empList = employs.stream()
+									  .sorted(Comparator.comparingDouble(Employ :: getSalary).reversed())
+									  .toList();
 		return empList;
 	}
 	
 	//sorting the employs based on the highest salary from each department
-	public static List<Employ> getHighestPaidEmployFromEachDepartment(List<Employ> employs){
-		
-		return null;
+	public static Map<String, Employ> getHighestPaidEmployFromEachDepartment(List<Employ> employs){
+		Map<String, Employ> highestPaidByDept = employs.stream()
+														.collect(Collectors.groupingBy(
+																Employ:: getDepartment, 
+																Collectors.collectingAndThen(
+																Collectors.maxBy(Comparator.comparingDouble(Employ::getSalary)),
+																Optional::get
+																)
+														));
+		return highestPaidByDept;
 	}
 	
 	public static void main(String[] args) {
@@ -39,9 +52,9 @@ public class EmployProcess {
 		sortedEmploys.forEach(System.out::println);
 		System.out.println();
 		
-		/*System.out.println("List of employs based on the highest salary in each department");
-		List<Employ> highestSalaried = getHighestPaidEmployFromEachDepartment(employs);
-		highestSalaried.forEach(System.out::println); */
+		System.out.println("List of employs based on the highest salary in each department");
+		Map<String, Employ> highestPaidByDept = getHighestPaidEmployFromEachDepartment(employs);
+		highestPaidByDept.entrySet().stream().forEach((entry) -> System.out.println(entry.getValue()));
 		
 
 	}
